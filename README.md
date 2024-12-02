@@ -25,7 +25,7 @@ ENV HEALTHCHECK_SKIP_TLS_VERIFY="false"  # use false/true or 0/1
 COPY --from=builder --chown=1000:100 /go/app/myapp /usr/local/bin/myapp
 
 # copy HEALTHCHECK
-COPY --from=docker.io/tobi312/tools:healtcheck --chown=1000:100 /usr/local/bin/healthcheck /usr/local/bin/healthcheck
+COPY --from=docker.io/tobi312/tools:healthcheck --chown=1000:100 /usr/local/bin/healthcheck /usr/local/bin/healthcheck
 
 USER 1000
 
