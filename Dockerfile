@@ -1,7 +1,7 @@
 # docker build --no-cache --progress=plain -t tobi312/tools:healthcheck -f Dockerfile .
 
 # hadolint ignore=DL3006
-FROM golang:latest AS builder
+FROM golang:alpine AS builder
 
 ENV CGO_ENABLED=0
 
