@@ -19,7 +19,7 @@ ENV HEALTHCHECK_URL="http://localhost:8080/"
 #    HEALTHCHECK_PORT="8080" \
 #    HEALTHCHECK_PATH="/"
 # SSL verify
-ENV HEALTHCHECK_SKIP_TLS_VERIFY="false"  # use false/true or 0/1
+#ENV HEALTHCHECK_SKIP_TLS_VERIFY="false"  # use false/true or 0/1
 
 # copy your (webserver-)app
 COPY --from=builder --chown=1000:100 /go/app/myapp /usr/local/bin/myapp
