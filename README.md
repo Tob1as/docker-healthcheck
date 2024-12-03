@@ -3,7 +3,8 @@ Simple Healthcheck for Container Images with Webserver written in GO!
 
 ### Why Use This Healthcheck Tool?
 
-This healthcheck tool provides a lightweight and secure alternative to using traditional tools like curl or wget for monitoring containerized web servers. By being a standalone Go binary, it reduces the need for additional Linux packages, minimizing the attack surface and potential vulnerabilities (CVE) in the container. Unlike other utilities, it avoids the risk of executing unwanted external downloads within the container, ensuring a more controlled and predictable runtime environment.
+This healthcheck tool provides a lightweight and secure alternative to using traditional tools like curl or wget for monitoring containerized web servers. By being a standalone Go binary, it reduces the need for additional Linux packages, minimizing the attack surface and potential vulnerabilities (CVE) in the container. Unlike other utilities, it avoids the risk of executing unwanted external downloads within the container, ensuring a more controlled and predictable runtime environment.  
+Additionally, it works seamlessly in minimal container images, such as those based on `scratch` or "[Distroless](https://github.com/GoogleContainerTools/distroless)", that missing a shell.
 
 ### Example usage
 
