@@ -1,10 +1,17 @@
 # docker-healthcheck
 Simple Healthcheck for Container Images with Webserver written in GO!
 
+### Why Use This Healthcheck Tool?
+
+This healthcheck tool provides a lightweight and secure alternative to using traditional tools like curl or wget for monitoring containerized web servers. By being a standalone Go binary, it reduces the need for additional Linux packages, minimizing the attack surface and potential vulnerabilities (CVE) in the container. Unlike other utilities, it avoids the risk of executing unwanted external downloads within the container, ensuring a more controlled and predictable runtime environment.
 
 ### Example usage
 
-... to use in your Dockerfile.
+... to use in your Dockerfile.  
+
+More examples also in: [https://github.com/Tob1as/docker-build-example](https://github.com/Tob1as/docker-build-example)   
+
+#### Example 1
 
 ```dockerfile
 #FROM alpine:latest
@@ -36,13 +43,23 @@ ENTRYPOINT ["myapp"]
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["/usr/local/bin/healthcheck"]
 ```
 
-for more examples see Dockerfiles in [https://github.com/Tob1as/docker-build-example](https://github.com/Tob1as/docker-build-example).  
+#### Example 2
 
+```dockerfile
+FROM nginx:latest
+
+# HEALTHCHECK
+ENV HEALTHCHECK_PORT="80"
+COPY --from=docker.io/tobi312/tools:healthcheck /usr/local/bin/healthcheck /usr/local/bin/healthcheck
+HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["healthcheck"]
+```
+
+### Healthcheck Logs
 
 When your container is running check (for logs) with:
 ```sh
 docker inspect --format='{{json .State.Health}}' <container-id>
-# or
+# or (requirements packages: jq)
 docker inspect --format='{{json .State.Health}}' <container-id> | jq
 ```
 
