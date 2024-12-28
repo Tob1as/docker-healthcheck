@@ -30,12 +30,13 @@ ENV HEALTHCHECK_URL="http://localhost:8080/"
 #ENV HEALTHCHECK_SKIP_TLS_VERIFY="false"  # use false/true or 0/1
 
 # copy your (webserver-)app
-COPY --from=builder --chown=1000:100 /go/app/myapp /usr/local/bin/myapp
+COPY --from=builder --chown=65534:65534 /go/app/myapp /usr/local/bin/myapp
 
 # copy HEALTHCHECK
-COPY --from=docker.io/tobi312/tools:healthcheck --chown=1000:100 /usr/local/bin/healthcheck /usr/local/bin/healthcheck
+COPY --from=docker.io/tobi312/tools:healthcheck --chown=65534:65534 /usr/local/bin/healthcheck /usr/local/bin/healthcheck
 
-USER 1000
+# user: nobody
+USER 65534
 
 EXPOSE 8080/tcp
 ENTRYPOINT ["myapp"]

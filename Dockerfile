@@ -1,24 +1,32 @@
 # docker build --no-cache --progress=plain -t tobi312/tools:healthcheck -f Dockerfile .
+ARG GO_VERSION=1.23.4
+FROM golang:${GO_VERSION}-alpine AS builder
 
-# hadolint ignore=DL3006
-FROM golang:alpine AS builder
+SHELL ["/bin/ash", "-euxo", "pipefail", "-c"]
 
+ENV GOPATH=/go
 ENV CGO_ENABLED=0
 
-WORKDIR /go/app/
+WORKDIR /go/src/healthcheck
 
-COPY main.go /go/app/
+# copy files to workdir
+COPY . .
+
+#RUN \
+#    #set -eux ; \
+#    ls -lah ; \
+#    rm go.mod go.sum ; \
+#    go mod init github.com/Tob1as/docker-healthcheck ; \
+#    go mod tidy
 
 RUN \
-    set -eux ; \
-    go mod init healthcheck ; \
-    go mod tidy ; \
-    go build -o healthcheck . ; \
-    echo "Build done !"
+    #set -eux ; \
+    #go mod download ; \
+    go build -o ${GOPATH}/bin/healthcheck . ; \
+    ${GOPATH}/bin/healthcheck --help
 
 
-
-# hadolint ignore=DL3006
+# hadolint ignore=DL3006,DL3007
 FROM scratch AS production
 
 ARG VCS_REF
@@ -49,7 +57,10 @@ LABEL org.opencontainers.image.title="Healthcheck" \
 # SSL verify
 #ENV HEALTHCHECK_SKIP_TLS_VERIFY="false"  # use false/true or 0/1
 
-COPY --from=builder /go/app/healthcheck /usr/local/bin/healthcheck
+COPY --from=builder /go/bin/healthcheck /usr/local/bin/healthcheck
+
+# user: nobody
+USER 65534
 
 ENTRYPOINT ["healthcheck"]
 #CMD ["--help"]
