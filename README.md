@@ -1,12 +1,26 @@
 # docker-healthcheck
 Simple Healthcheck for Container Images with Webserver written in GO!
 
-### Why Use This Healthcheck Tool?
+## Why Use This Healthcheck Tool?
 
 This healthcheck tool provides a lightweight and secure alternative to using traditional tools like curl or wget for monitoring containerized web servers. By being a standalone Go binary, it reduces the need for additional Linux packages, minimizing the attack surface and potential vulnerabilities (CVE) in the container. Unlike other utilities, it avoids the risk of executing unwanted external downloads within the container, ensuring a more controlled and predictable runtime environment.  
 Additionally, it works seamlessly in minimal container images, such as those based on `scratch` or "[Distroless](https://github.com/GoogleContainerTools/distroless)", that missing a shell.
 
-### Example usage
+## Using
+
+### Manual build
+
+```sh
+go install github.com/Tob1as/docker-healthcheck@latest
+```
+
+This will give you a *docker-healthcheck* to run, in your Go bin directory:
+
+```sh
+$(go env GOPATH)/bin/docker-healthcheck --help
+```
+
+### Docker
 
 ... to use in your Dockerfile.  
 
@@ -56,7 +70,7 @@ COPY --from=docker.io/tobi312/tools:healthcheck /usr/local/bin/healthcheck /usr/
 HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["healthcheck"]
 ```
 
-### Healthcheck Logs
+#### Healthcheck Logs
 
 When your container is running check (for logs) with:
 ```sh
@@ -65,6 +79,6 @@ docker inspect --format='{{json .State.Health}}' <container-id>
 docker inspect --format='{{json .State.Health}}' <container-id> | jq
 ```
 
-### This Image on
+## This Image on
 * [DockerHub](https://hub.docker.com/r/tobi312/tools)
 * [GitHub](https://github.com/Tob1as/docker-healthcheck)
