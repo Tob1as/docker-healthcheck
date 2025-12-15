@@ -1,5 +1,5 @@
 # docker build --no-cache --progress=plain -t tobi312/tools:healthcheck -f Dockerfile .
-ARG GO_VERSION=1.23.4
+ARG GO_VERSION=1.25
 FROM golang:${GO_VERSION}-alpine AS builder
 
 SHELL ["/bin/ash", "-euxo", "pipefail", "-c"]
@@ -15,7 +15,7 @@ COPY . .
 #RUN \
 #    #set -eux ; \
 #    ls -lah ; \
-#    rm go.mod go.sum ; \
+#    rm -f go.mod go.sum ; \
 #    go mod init github.com/Tob1as/docker-healthcheck ; \
 #    go mod tidy
 
